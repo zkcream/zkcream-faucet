@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1>{{ title }}</h1>
-    <input class="input" v-model="to" placeholder="Enter your address"/>
+    <input class="input" v-model="to" placeholder="Enter your address" />
     <button :disabled="!isAddress()" @click="post">{{ buttonTxt }}</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import Methods from '@/api/method';
-import { isAddress } from "@ethersproject/address";
+import { defineComponent } from "vue"
+import Methods from "@/api/method"
+import { isAddress } from "@ethersproject/address"
 
 export default defineComponent({
   name: "Form",
@@ -17,18 +17,16 @@ export default defineComponent({
     return {
       title: "zkcream faucet",
       buttonTxt: "Send me ETH",
-      to: ''
-    };
+      to: "",
+    }
   },
   methods: {
     async post() {
-      const r = await Methods.getEth(this.to)
-      console.log(r.data)
-      console.log(this.to)
+      await Methods.getEth(this.to)
     },
     isAddress() {
       return isAddress(this.to)
-    }
+    },
   },
-});
+})
 </script>

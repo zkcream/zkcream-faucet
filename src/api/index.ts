@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios"
 
-export default () => {
+export default (): AxiosInstance => {
   return axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: "http://localhost:3000",
   })
 }

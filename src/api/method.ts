@@ -1,7 +1,8 @@
-import Api from './index'
+import { AxiosResponse } from "axios"
+import Api from "./index"
 
 export default {
-  getEth(to: string) {
-    return Api().post('/faucet', { to })
-  }
+  getEth(to: string): Promise<AxiosResponse<string>> {
+    return Api().post("/faucet", { to })
+  },
 }
