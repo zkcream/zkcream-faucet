@@ -1,6 +1,24 @@
 # zkcream-faucet
 
 ## Project setup
+
+1. Create `.env` file from `.env.sample` file
+
+```
+$ cat .env.sample > .env
+```
+
+2. Add api endpoint url
+
+example:
+
+```
+$ cat .env
+VUE_APP_ZKCREAM_API_ENDPOINT="http://localhost:3000" 
+```
+
+3. Install packages
+
 ```
 yarn install
 ```
@@ -19,6 +37,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
