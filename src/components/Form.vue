@@ -22,7 +22,8 @@ export default defineComponent({
   },
   methods: {
     async post() {
-      await Methods.getEth(this.to)
+      const r = await Methods.getEth(this.to)
+      console.log("tx hash: ", r.data)
     },
     isAddress() {
       return isAddress(this.to)
