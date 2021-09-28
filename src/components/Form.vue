@@ -5,6 +5,9 @@
     <button class="btn" :disabled="!isAddress()" @click="post">
       {{ buttonTxt }}
     </button>
+    <transition name="fade" class="txhash">
+      <p v-if="hash.length > 0">Tx: {{ hash }}</p>
+    </transition>
   </div>
 </template>
 
@@ -12,6 +15,7 @@
 import { defineComponent } from "vue"
 import Methods from "@/api/method"
 import { isAddress } from "@ethersproject/address"
+import { AxiosResponse } from "axios"
 
 export default defineComponent({
   name: "Form",
@@ -20,12 +24,18 @@ export default defineComponent({
       title: "zkcream faucet",
       buttonTxt: "Send me ETH",
       to: "",
+      hash: "",
     }
   },
   methods: {
     async post() {
-      const r = await Methods.getEth(this.to)
-      console.log("tx hash: ", r.data)
+      await Methods.getEth(this.to).then((r: AxiosResponse<string>) => {
+        this.hash = r.data
+        setInterval(() => {
+          this.hash = ""
+        }, 5000)
+      })
+      this.to = ""
     },
     isAddress() {
       return isAddress(this.to)
@@ -68,5 +78,19 @@ export default defineComponent({
 
 .btn:disabled {
   background-color: #ffefb1;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.txhash {
+  font-size: 0.6rem;
 }
 </style>
