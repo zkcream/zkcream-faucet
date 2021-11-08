@@ -8,6 +8,9 @@
     <transition name="fade" class="txhash">
       <p v-if="hash.length > 0">Tx: {{ hash }}</p>
     </transition>
+    <transition name="fade" class="error">
+      <p v-if="error.length > 0">error: {{ error }}</p>
+    </transition>
   </div>
 </template>
 
@@ -25,16 +28,24 @@ export default defineComponent({
       buttonTxt: "Send me ETH",
       to: "",
       hash: "",
+      error: "",
     }
   },
   methods: {
     async post() {
-      await Methods.getEth(this.to).then((r: AxiosResponse<string>) => {
-        this.hash = r.data
-        setInterval(() => {
-          this.hash = ""
-        }, 5000)
-      })
+      await Methods.getEth(this.to)
+        .then((r: AxiosResponse<string>) => {
+          this.hash = r.data
+          setInterval(() => {
+            this.hash = ""
+          }, 5000)
+        })
+        .catch((error) => {
+          this.error = error.response.data.message
+          setInterval(() => {
+            this.error = ""
+          }, 5000)
+        })
       this.to = ""
     },
     isAddress() {
@@ -92,5 +103,10 @@ export default defineComponent({
 
 .txhash {
   font-size: 0.6rem;
+}
+
+.error {
+  font-size: 0.6rem;
+  color: red;
 }
 </style>
